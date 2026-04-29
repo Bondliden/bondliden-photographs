@@ -545,7 +545,7 @@
       <span class="es">Posa<br/><i>para un retrato.</i></span>
       <span class="en">Sit<br/><i>for a portrait.</i></span>
     </h2>
-    <div class="cta rv d2"><a href="mailto:hola@bondliden.com">hola@bondliden.com →</a></div>
+    <div class="cta rv d2"><a href="mailto:info@bondliden.com">info@bondliden.com →</a></div>
 
     <div class="rv d3" style="margin-top:80px;text-align:center">
       <p style="font-family:var(--sans);font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--ox);margin-bottom:14px"><span class="es">— Reserva tu sesión —</span><span class="en">— Book your session —</span></p>
@@ -656,7 +656,7 @@ TONO
 
 QUÉ DERIVAR Y CÓMO
 - Si preguntan por DISPONIBILIDAD o reservar: invítales a ver el calendario al final de la página (pestaña Contacto, scroll abajo). Frase tipo: "Mira el calendario al final de la página y elige el hueco que mejor te encaje."
-- Si preguntan por PRECIOS o COTIZACIÓN: pídeles que escriban a hola@bondliden.com con un par de líneas sobre el encargo (qué, cuándo, dónde) y mandamos presupuesto a medida. No improvises cifras.
+- Si preguntan por PRECIOS o COTIZACIÓN: pídeles que escriban a info@bondliden.com con un par de líneas sobre el encargo (qué, cuándo, dónde) y mandamos presupuesto a medida. No improvises cifras.
 - Si preguntan algo CONCRETO sobre el trabajo (formato, duración, lugar, equipo, retoque): responde con confianza desde lo que sabes del estudio.
 - Si quieren ver más obra: refiérelos a la pestaña Plates o Archive de la web, o a Instagram @bondliden.
 
@@ -678,7 +678,7 @@ QUÉ NO HACER
     try{
       const r=await fetch(CHAT_CONFIG.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:CHAT_CONFIG.model,messages,temperature:.6,max_tokens:300})});
       const j=await r.json();
-      return j?.choices?.[0]?.message?.content || 'No he podido responder ahora. Escríbenos a hola@bondliden.com.';
+      return j?.choices?.[0]?.message?.content || 'No he podido responder ahora. Escríbenos a info@bondliden.com.';
     }catch(e){return 'Conexión interrumpida. Inténtalo de nuevo en un momento.'}
   }
   chatF.addEventListener('submit',async(e)=>{
