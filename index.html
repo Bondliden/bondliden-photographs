@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bondliden — Photographs</title>
+<meta name="description" content="Bondliden. Photographs. A monograph of contemporary portraiture in the tradition of Richard Avedon — clean, frontal, unornamented." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,500&family=Poppins:wght@200;300;400;500;600;700&family=Lora:ital@1&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --white:#faf9f5;       /* Anthropic cream */
+    --paper:#f3f1ea;
+    --black:#0a0a0a;
+    --ink:#141413;
+    --mid:#b0aea5;
+    --rule:rgba(20,20,19,.14);
+    --ox:#d97757;          /* Anthropic terracotta — replaces oxblood */
+    --ox-deep:#b65a3e;
+    --serif: 'Bodoni Moda', 'Didot', Georgia, serif;
+    --sans:  'Poppins', Arial, sans-serif;
+    --italic:'Lora', Georgia, serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--white);color:var(--ink);
+    font-family:var(--sans);font-weight:300;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;cursor:none;
+  }
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%;height:auto}
+  ::selection{background:var(--ox);color:var(--white)}
+
+  /* Cursor — minimal black dot, like a print mark */
+  .cur{position:fixed;left:0;top:0;width:8px;height:8px;border-radius:50%;background:var(--ink);
+    transform:translate(-50%,-50%);pointer-events:none;z-index:1100;
+    transition:width .35s cubic-bezier(.2,.8,.2,1), height .35s cubic-bezier(.2,.8,.2,1), background .35s}
+  .cur.lg{width:80px;height:80px;background:transparent;border:1px solid var(--ink);mix-blend-mode:difference}
+  .cur.ox{background:var(--ox)}
+  @media(hover:none){body{cursor:auto}.cur{display:none}}
+
+  /* Side numerals (book pagination) */
+  .pageno{position:fixed;left:24px;bottom:24px;font-family:var(--serif);font-style:italic;font-size:13px;color:var(--ink);z-index:40;letter-spacing:.04em}
+  .pageno b{font-style:normal;font-weight:500}
+  .vert{position:fixed;right:18px;top:50%;transform:translateY(-50%) rotate(90deg);transform-origin:right center;
+    font-family:var(--sans);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--ink);z-index:40;pointer-events:none}
+  @media(max-width:900px){.pageno,.vert{display:none}}
+
+  .wrap{max-width:1480px;margin:0 auto;padding:0 40px}
+  @media(max-width:640px){.wrap{padding:0 20px}}
+
+  /* TOP BAR */
+  nav.top{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(20,20,19,.08)}
+  nav.top .row{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;font-family:var(--sans);font-size:11px;letter-spacing:.32em;text-transform:uppercase}
+  nav.top .mark{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:.04em;font-size:18px;text-transform:none}
+  nav.top ul{display:flex;gap:36px;list-style:none}
+  nav.top a:hover{color:var(--ox)}
+  nav.top .ox{color:var(--ox)}
+  @media(max-width:820px){nav.top ul{display:none}nav.top .row{padding:14px 20px}}
+
+  /* ---------- HERO / TITLE PAGE ---------- */
+  header.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;
+    padding:120px 0 60px;position:relative}
+  .hero .top-meta{display:flex;justify-content:space-between;font-family:var(--sans);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--ink)}
+  .hero .top-meta .ox{color:var(--ox)}
+
+  .hero .center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:14px;padding:40px 0}
+  .hero .pre{font-family:var(--sans);font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--ink);font-weight:400}
+  .hero .pre i{color:var(--ox);font-style:normal}
+  .hero .title{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(72px,16vw,260px);line-height:.86;letter-spacing:-.04em;
+  }
+  .hero .title .it{font-style:italic;font-weight:400;color:var(--ox);font-size:.45em;display:block;margin-top:18px;letter-spacing:.02em}
+  .hero .sub{font-family:var(--italic);font-style:italic;font-size:clamp(18px,1.6vw,22px);color:var(--ink);max-width:60ch;line-height:1.55}
+  .hero .stamp{font-family:var(--sans);font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--mid);margin-top:40px}
+
+  .hero .feature{
+    width:min(1100px, 92vw); margin:80px auto 0;
+    position:relative
+  }
+  .hero .feature img{width:100%;height:auto;display:block;filter:grayscale(1) contrast(1.04);transition:filter .8s cubic-bezier(.2,.8,.2,1)}
+  .hero .feature:hover img{filter:grayscale(0) contrast(1.02)}
+  .hero .feature .plate{display:block;margin-top:18px;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--ink);text-align:left}
+
+  .hero .bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;font-family:var(--sans);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--ink);padding-top:120px}
+  .hero .bottom b{display:block;font-weight:500;color:var(--mid);margin-bottom:8px}
+
+  /* ---------- MANIFEST ---------- */
+  .manifest{padding:200px 0 200px;text-align:center;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);position:relative}
+  .manifest .num{font-family:var(--sans);font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--ox)}
+  .manifest blockquote{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,56px);line-height:1.15;letter-spacing:-.015em;
+    max-width:24ch;margin:36px auto 0}
+  .manifest blockquote .it{font-style:italic;color:var(--ox)}
+  .manifest cite{display:block;margin-top:48px;font-family:var(--sans);font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--ink);font-style:normal}
+
+  /* ---------- PLATE (one image per scroll stop) ---------- */
+  .plate{padding:140px 0;position:relative}
+  .plate .head{display:flex;justify-content:space-between;align-items:flex-end;
+    font-family:var(--sans);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--ink);
+    border-bottom:1px solid var(--rule);padding-bottom:18px;margin-bottom:48px}
+  .plate .head .roman{font-family:var(--serif);font-style:italic;font-weight:400;font-size:36px;letter-spacing:0;text-transform:none;color:var(--ink)}
+  .plate .head .roman b{color:var(--ox);font-style:normal;font-weight:500;margin-right:8px}
+  .plate .img{position:relative;overflow:hidden;margin:0 auto}
+  .plate .img img{width:100%;height:auto;display:block;filter:grayscale(1) contrast(1.06);transition:filter .8s cubic-bezier(.2,.8,.2,1)}
+  .plate .img:hover img{filter:grayscale(0) contrast(1.02)}
+  .plate .cap{display:flex;justify-content:space-between;align-items:flex-start;margin-top:22px;font-family:var(--sans);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--ink)}
+  .plate .cap .name{font-family:var(--serif);font-style:italic;font-size:18px;letter-spacing:0;text-transform:none;color:var(--ink)}
+  .plate .cap .name b{color:var(--ox);font-style:normal;font-weight:500;margin-right:8px}
+
+  /* portrait/landscape variants */
+  .plate.p-tall .img{max-width:780px}
+  .plate.p-wide .img{max-width:1300px}
+  .plate.p-square .img{max-width:980px}
+
+  /* paired spread */
+  .spread{padding:140px 0;border-top:1px solid var(--rule)}
+  .spread .grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  @media(max-width:820px){.spread .grid{grid-template-columns:1fr}}
+  .spread img{width:100%;filter:grayscale(1) contrast(1.06);transition:filter .8s cubic-bezier(.2,.8,.2,1)}
+  .spread img:hover{filter:grayscale(0) contrast(1.02)}
+  .spread .a{margin-top:60px}
+  .spread .b{margin-bottom:60px}
+  .spread .head{font-family:var(--sans);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--ox);margin-bottom:14px}
+  .spread .title{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(28px,3vw,42px);line-height:1.1;letter-spacing:-.01em;color:var(--ink)}
+
+  /* ---------- ARCHIVE GRID ---------- */
+  .archive{padding:160px 0;border-top:1px solid var(--rule)}
+  .arc-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--rule);padding-bottom:22px;margin-bottom:60px}
+  .arc-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(48px,7vw,96px);line-height:.9;letter-spacing:-.03em}
+  .arc-head h2 i{font-style:italic;color:var(--ox);font-weight:400}
+  .arc-head .meta{font-family:var(--sans);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--ink);text-align:right}
+  .arc-head .meta b{color:var(--ox);font-weight:500}
+
+  .arc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:820px){.arc-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+  .arc{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--paper)}
+  .arc img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06);transition:transform 1.4s cubic-bezier(.2,.8,.2,1), filter .8s}
+  .arc:hover img{transform:scale(1.04);filter:grayscale(0) contrast(1.04)}
+  .arc::after{content:attr(data-no);position:absolute;left:8px;top:8px;font-family:var(--serif);font-style:italic;color:var(--white);font-size:14px;mix-blend-mode:difference}
+
+  /* ---------- INDEX of plates ---------- */
+  .indexlist{padding:160px 0;border-top:1px solid var(--rule)}
+  .ix{display:grid;grid-template-columns:80px 80px 1fr 1fr 100px;gap:20px;align-items:center;
+    font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);
+    padding:18px 0;border-top:1px solid rgba(20,20,19,.12);transition:padding-left .4s, color .4s}
+  .ix:last-child{border-bottom:1px solid rgba(20,20,19,.12)}
+  .ix:hover{padding-left:14px;color:var(--ox)}
+  .ix .roman{font-family:var(--serif);font-style:italic;font-weight:500;font-size:20px;letter-spacing:0;text-transform:none;color:var(--ox)}
+  .ix .name{font-family:var(--serif);font-style:italic;font-size:20px;letter-spacing:0;text-transform:none}
+  .ix .y{color:var(--mid)}
+  .ix .ar{justify-self:end;font-family:var(--serif);font-style:italic;font-size:22px}
+  @media(max-width:820px){.ix{grid-template-columns:50px 1fr 50px}.ix .y,.ix .loc{display:none}}
+
+  /* ---------- BIO ---------- */
+  .bio{padding:200px 0;border-top:1px solid var(--rule);background:var(--paper)}
+  .bio .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;align-items:start}
+  @media(max-width:820px){.bio .grid{grid-template-columns:1fr;gap:48px}}
+  .bio h2{font-family:var(--serif);font-weight:500;font-size:clamp(48px,6vw,88px);line-height:.95;letter-spacing:-.03em}
+  .bio h2 i{font-style:italic;color:var(--ox);font-weight:400}
+  .bio .num{font-family:var(--sans);font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--ox);margin-bottom:18px;display:block}
+  .bio p{font-family:var(--italic);font-style:italic;font-size:18px;line-height:1.7;color:var(--ink);max-width:54ch}
+  .bio p + p{margin-top:18px}
+  .bio .signed{margin-top:46px;font-family:var(--serif);font-style:italic;font-size:30px;letter-spacing:-.01em}
+  .bio .signed b{color:var(--ox);font-style:normal;font-weight:500;display:block;font-size:11px;letter-spacing:.4em;text-transform:uppercase;margin-top:8px;font-family:var(--sans)}
+
+  /* ---------- COLOPHON / FOOTER ---------- */
+  footer{background:var(--white);color:var(--ink);padding:160px 0 40px;border-top:1px solid var(--rule);position:relative}
+  footer .super{font-family:var(--serif);font-weight:500;
+    font-size:clamp(80px,16vw,260px);line-height:.86;letter-spacing:-.04em;text-align:center}
+  footer .super i{font-style:italic;color:var(--ox);font-weight:400}
+  footer .cta{margin-top:60px;text-align:center}
+  footer .cta a{font-family:var(--serif);font-style:italic;font-size:clamp(20px,2vw,28px);border-bottom:1px solid var(--ink);padding-bottom:6px}
+  footer .cta a:hover{color:var(--ox);border-bottom-color:var(--ox)}
+  footer .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-top:140px;font-family:var(--sans);font-size:10px;letter-spacing:.32em;text-transform:uppercase;line-height:1.7}
+  footer .cols b{display:block;color:var(--ox);font-weight:500;margin-bottom:10px}
+  footer .legal{margin-top:80px;display:flex;justify-content:space-between;font-family:var(--sans);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--mid);border-top:1px solid rgba(20,20,19,.12);padding-top:20px}
+  @media(max-width:820px){footer .cols{grid-template-columns:repeat(2,1fr)}footer .legal{flex-direction:column;gap:10px}}
+
+  /* TABS */
+  nav.top ul{gap:0}
+  nav.top li{position:relative}
+  nav.top .tab{display:inline-block;padding:10px 22px;border:1px solid transparent;border-bottom:0;
+    transition:background .3s, color .3s, border-color .3s;cursor:pointer;font-family:var(--sans);
+    font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink);font-weight:300}
+  nav.top .tab .ro{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--ox);margin-right:8px;letter-spacing:0;text-transform:none}
+  nav.top .tab:hover{color:var(--ox)}
+  nav.top .tab.active{background:var(--white);border-color:rgba(20,20,19,.16);color:var(--ink);transform:translateY(1px);border-radius:6px 6px 0 0}
+  nav.top .tab{border-radius:6px 6px 0 0}
+  nav.top .tab.active .ro{color:var(--ox)}
+  @media(max-width:1024px){nav.top .tab{padding:8px 12px;letter-spacing:.2em}}
+  @media(max-width:820px){nav.top ul{display:flex;overflow-x:auto;gap:0;max-width:calc(100vw - 200px);scrollbar-width:none}
+    nav.top ul::-webkit-scrollbar{display:none}
+    nav.top .tab{padding:8px 14px;white-space:nowrap;letter-spacing:.16em;font-size:10px}}
+
+  /* tab panels */
+  .panel{display:none;animation:fadein .65s cubic-bezier(.2,.8,.2,1)}
+  .panel.active{display:block}
+
+  /* language toggle */
+  body.lang-es .en, body.lang-en .es{display:none}
+  .lang{display:inline-flex;gap:0;font-family:var(--sans);font-size:10px;letter-spacing:.4em;text-transform:uppercase;border:1px solid rgba(20,20,19,.18);border-radius:0;margin-left:18px}
+  .lang button{background:transparent;border:0;padding:6px 12px;cursor:none;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--mid)}
+  .lang button.on{background:var(--ink);color:var(--white)}
+  .lang button:hover{color:var(--ox)}
+  .lang button.on:hover{color:var(--white)}
+  @keyframes fadein{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+  /* reveals */
+  .rv{opacity:0;transform:translateY(40px);transition:opacity 1.2s cubic-bezier(.2,.8,.2,1), transform 1.2s cubic-bezier(.2,.8,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+  /* small ornament */
+  .ornament{display:inline-block;width:48px;height:1px;background:var(--ink);vertical-align:middle;margin:0 10px;transform:translateY(-3px)}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ox);vertical-align:middle;margin:0 8px}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="pageno"><b>Pl.</b> <span id="pgno">I</span> <span style="color:var(--mid);margin:0 6px">/</span> XII</div>
+<div class="vert">Photographs · MMXVIII—MMXXVI</div>
+
+<nav class="top">
+  <div class="row">
+    <div class="mark">Bondliden</div>
+    <ul>
+      <li><a class="tab active" data-tab="hero"><span class="ro">I.</span><span class="es">Frontispicio</span><span class="en">Frontispiece</span></a></li>
+      <li><a class="tab" data-tab="manifest"><span class="ro">II.</span><span class="es">Manifiesto</span><span class="en">Manifesto</span></a></li>
+      <li><a class="tab" data-tab="plates"><span class="ro">III.</span><span class="es">Plates</span><span class="en">Plates</span></a></li>
+      <li><a class="tab" data-tab="archive"><span class="ro">IV.</span><span class="es">Archivo</span><span class="en">Archive</span></a></li>
+      <li><a class="tab" data-tab="studio"><span class="ro">V.</span><span class="es">Estudio</span><span class="en">Studio</span></a></li>
+      <li><a class="tab" data-tab="contact"><span class="ro">VI.</span><span class="es">Contacto</span><span class="en">Contact</span></a></li>
+    </ul>
+    <div class="lang" id="lang">
+      <button data-lang="es" class="on">ES</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="panel active" data-panel="hero">
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="top-meta rv">
+      <span>Bondliden Studio <span class="dot"></span> est. MMXVIII</span>
+      <span class="ox"><span class="es">Monografía · edición 2026 <span class="dot"></span> Toda portada en @paulainmarbella, nuestra.</span><span class="en">A monograph · 2026 edition <span class="dot"></span> Every cover on @paulainmarbella, ours.</span></span>
+      <span>Lisboa / Marbella</span>
+    </div>
+
+    <div class="center">
+      <div class="pre rv d1"><i>—</i> <span class="es">Fotografías · Monografía en curso</span><span class="en">Photographs · A working monograph</span> <i>—</i></div>
+      <h1 class="title rv d2">
+        Bondliden
+        <span class="it"><span class="es">un cuerpo de obra, 2018—2026</span><span class="en">a body of work, 2018—2026</span></span>
+      </h1>
+      <p class="sub rv d3"><span class="es">Retratos en blanco y negro, frontales, sin ornamento. La luz que cae sobre la cara y el silencio que la sostiene. Una conversación con la cámara apuntando, no apuntada.</span><span class="en">Black-and-white portraits, frontal, unornamented. The light that falls on a face and the silence that holds it. A conversation with the camera pointing, not pointed at.</span></p>
+
+      <div class="feature rv d3">
+        <img src="img/paula-01.jpg" alt="Frontispiece — Paula Fullerton" />
+        <span class="plate">Frontispiece <span style="color:var(--ox)">·</span> Paula F. <span style="color:var(--mid)">Marbella, MMXXV</span></span>
+      </div>
+
+      <a class="stamp rv d3 tab" data-tab="plates" style="margin-top:60px;cursor:none;border:1px solid var(--ink);padding:12px 28px;border-radius:999px;display:inline-block;background:var(--white);transition:background .3s,color .3s,border-color .3s">→ &nbsp;<span class="es">Abrir el libro</span><span class="en">Open the book</span>&nbsp; ←</a>
+    </div>
+
+    <div class="bottom rv">
+      <div><b><span class="es">Estudio</span><span class="en">Studio</span></b>R. das Janelas Verdes 12<br/>Lisboa · 1200-690</div>
+      <div style="text-align:center"><b><span class="es">Plates</span><span class="en">Plates</span></b><span class="es">Doce principales<br/>Veinte suplementarias</span><span class="en">Twelve principal<br/>Twenty supplementary</span></div>
+      <div style="text-align:right"><b><span class="es">Edición</span><span class="en">Edition</span></b><span class="es">Primera, MMXXVI<br/>Tirada abierta · digital</span><span class="en">First, MMXXVI<br/>Open run · digital</span></div>
+    </div>
+  </div>
+</header>
+
+</div><!-- /hero -->
+
+<div class="panel" data-panel="manifest">
+<!-- MANIFEST -->
+<section class="manifest" id="manifest">
+  <div class="wrap">
+    <div class="num rv">— I — <span class="es">Manifiesto</span><span class="en">Manifesto</span></div>
+    <blockquote class="rv d1"><span class="es">Una fotografía no es la verdad de un rostro. Es la <span class="it">atención</span> que le <span class="it">prestamos.</span></span><span class="en">A photograph is not the truth of a face. It is the <span class="it">attention</span> we paid <span class="it">to it.</span></span></blockquote>
+    <cite class="rv d2"><span class="ornament"></span> Bondliden, <span class="es">sobre el retrato</span><span class="en">on portraiture</span> <span class="ornament"></span></cite>
+  </div>
+</section>
+
+</div><!-- /manifest -->
+
+<div class="panel" data-panel="plates">
+<!-- PLATES -->
+<div id="plates"></div>
+
+<section class="plate p-square">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="roman"><b>Plate I.</b> Studio, frontal</div>
+      <div>Bondliden &nbsp;·&nbsp; № 04 / 12</div>
+    </div>
+    <div class="img rv d1"><img src="img/bondliden-04.jpg" alt="Plate I" /></div>
+    <div class="cap rv d2">
+      <div class="name"><b>—</b> Untitled, studio</div>
+      <div>Lisboa <span class="dot"></span> 2025</div>
+    </div>
+  </div>
+</section>
+
+<section class="plate p-tall">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="roman"><b>Plate II.</b> Paula, in black</div>
+      <div>Editorial &nbsp;·&nbsp; № 06 / 20</div>
+    </div>
+    <div class="img rv d1"><img src="img/paula-06.jpg" alt="Plate II — Paula" /></div>
+    <div class="cap rv d2">
+      <div class="name"><b>—</b> Paula F., for Like Travel Magazine</div>
+      <div>Marbella <span class="dot"></span> 2025</div>
+    </div>
+  </div>
+</section>
+
+<section class="plate p-square">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="roman"><b>Plate III.</b> Available light</div>
+      <div>Personal &nbsp;·&nbsp; № 07 / 12</div>
+    </div>
+    <div class="img rv d1"><img src="img/bondliden-07.jpg" alt="Plate III" /></div>
+    <div class="cap rv d2">
+      <div class="name"><b>—</b> Notes on a window</div>
+      <div>Studio interior <span class="dot"></span> 2024</div>
+    </div>
+  </div>
+</section>
+
+<section class="plate p-tall">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="roman"><b>Plate IV.</b> Cover, June</div>
+      <div>Print issue &nbsp;·&nbsp; № 02 / 20</div>
+    </div>
+    <div class="img rv d1"><img src="img/paula-02.jpg" alt="Plate IV — Paula cover" /></div>
+    <div class="cap rv d2">
+      <div class="name"><b>—</b> Paula F., June print cover</div>
+      <div>Marbella <span class="dot"></span> 2025</div>
+    </div>
+  </div>
+</section>
+
+<section class="plate p-square">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="roman"><b>Plate V.</b> The hour before</div>
+      <div>Personal &nbsp;·&nbsp; № 05 / 12</div>
+    </div>
+    <div class="img rv d1"><img src="img/bondliden-05.jpg" alt="Plate V" /></div>
+    <div class="cap rv d2">
+      <div class="name"><b>—</b> Untitled</div>
+      <div>Lisboa <span class="dot"></span> 2024</div>
+    </div>
+  </div>
+</section>
+
+<section class="plate p-tall">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="roman"><b>Plate VI.</b> La Cascada</div>
+      <div>Editorial &nbsp;·&nbsp; № 18 / 20</div>
+    </div>
+    <div class="img rv d1"><img src="img/paula-18.jpg" alt="Plate VI" /></div>
+    <div class="cap rv d2">
+      <div class="name"><b>—</b> Paula F., La Cascada</div>
+      <div>Marbella <span class="dot"></span> 2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- SPREAD -->
+<section class="spread">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <div class="rv head">— II — Diptych</div>
+        <h3 class="rv d1 title">A study of <i>presence</i><br/>and its absence.</h3>
+      </div>
+      <div></div>
+    </div>
+    <div class="grid" style="margin-top:80px">
+      <div class="a rv"><img src="img/paula-09.jpg" alt="Spread left" /></div>
+      <div class="b rv d1"><img src="img/paula-10.jpg" alt="Spread right" /></div>
+    </div>
+  </div>
+</section>
+
+<section class="plate p-tall">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="roman"><b>Plate VII.</b> Coda</div>
+      <div>Personal &nbsp;·&nbsp; № 12 / 12</div>
+    </div>
+    <div class="img rv d1"><img src="img/bondliden-12.jpg" alt="Plate VII" /></div>
+    <div class="cap rv d2">
+      <div class="name"><b>—</b> The last sheet</div>
+      <div>Lisboa <span class="dot"></span> 2026</div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /plates -->
+
+<div class="panel" data-panel="archive">
+<!-- ARCHIVE -->
+<section class="archive" id="archive">
+  <div class="wrap">
+    <div class="arc-head rv">
+      <h2>Archive <i>2024—2026</i></h2>
+      <div class="meta"><b>32</b> photographs<br/>Working monograph</div>
+    </div>
+
+    <div class="arc-grid">
+      <a class="arc rv" data-no="01" href="#"><img src="img/bondliden-01.jpg" alt=""></a>
+      <a class="arc rv d1" data-no="02" href="#"><img src="img/bondliden-02.jpg" alt=""></a>
+      <a class="arc rv d2" data-no="03" href="#"><img src="img/bondliden-03.jpg" alt=""></a>
+      <a class="arc rv d3" data-no="04" href="#"><img src="img/paula-03.jpg" alt=""></a>
+      <a class="arc rv" data-no="05" href="#"><img src="img/bondliden-06.jpg" alt=""></a>
+      <a class="arc rv d1" data-no="06" href="#"><img src="img/paula-04.jpg" alt=""></a>
+      <a class="arc rv d2" data-no="07" href="#"><img src="img/paula-05.jpg" alt=""></a>
+      <a class="arc rv d3" data-no="08" href="#"><img src="img/bondliden-08.jpg" alt=""></a>
+      <a class="arc rv" data-no="09" href="#"><img src="img/paula-07.jpg" alt=""></a>
+      <a class="arc rv d1" data-no="10" href="#"><img src="img/bondliden-09.jpg" alt=""></a>
+      <a class="arc rv d2" data-no="11" href="#"><img src="img/paula-08.jpg" alt=""></a>
+      <a class="arc rv d3" data-no="12" href="#"><img src="img/paula-11.jpg" alt=""></a>
+      <a class="arc rv" data-no="13" href="#"><img src="img/bondliden-10.jpg" alt=""></a>
+      <a class="arc rv d1" data-no="14" href="#"><img src="img/paula-12.jpg" alt=""></a>
+      <a class="arc rv d2" data-no="15" href="#"><img src="img/paula-13.jpg" alt=""></a>
+      <a class="arc rv d3" data-no="16" href="#"><img src="img/bondliden-11.jpg" alt=""></a>
+      <a class="arc rv" data-no="17" href="#"><img src="img/paula-14.jpg" alt=""></a>
+      <a class="arc rv d1" data-no="18" href="#"><img src="img/paula-15.jpg" alt=""></a>
+      <a class="arc rv d2" data-no="19" href="#"><img src="img/paula-16.jpg" alt=""></a>
+      <a class="arc rv d3" data-no="20" href="#"><img src="img/paula-17.jpg" alt=""></a>
+      <a class="arc rv" data-no="21" href="#"><img src="img/paula-19.jpg" alt=""></a>
+      <a class="arc rv d1" data-no="22" href="#"><img src="img/paula-20.jpg" alt=""></a>
+    </div>
+  </div>
+</section>
+
+<!-- INDEX -->
+<section class="indexlist">
+  <div class="wrap">
+    <div class="arc-head rv" style="margin-bottom:50px">
+      <h2>Index <i>of plates</i></h2>
+      <div class="meta">A reader's guide</div>
+    </div>
+
+    <a class="ix rv"><span class="roman">I.</span><span class="y">2025</span><span class="name">Untitled, studio</span><span class="loc">Lisboa</span><span class="ar">→</span></a>
+    <a class="ix rv"><span class="roman">II.</span><span class="y">2025</span><span class="name">Paula F., for Like Travel</span><span class="loc">Marbella</span><span class="ar">→</span></a>
+    <a class="ix rv"><span class="roman">III.</span><span class="y">2024</span><span class="name">Notes on a window</span><span class="loc">Lisboa</span><span class="ar">→</span></a>
+    <a class="ix rv"><span class="roman">IV.</span><span class="y">2025</span><span class="name">Paula F., June print cover</span><span class="loc">Marbella</span><span class="ar">→</span></a>
+    <a class="ix rv"><span class="roman">V.</span><span class="y">2024</span><span class="name">Untitled, hour before</span><span class="loc">Lisboa</span><span class="ar">→</span></a>
+    <a class="ix rv"><span class="roman">VI.</span><span class="y">2025</span><span class="name">Paula F., La Cascada</span><span class="loc">Marbella</span><span class="ar">→</span></a>
+    <a class="ix rv"><span class="roman">VII.</span><span class="y">2026</span><span class="name">The last sheet</span><span class="loc">Lisboa</span><span class="ar">→</span></a>
+    <a class="ix rv"><span class="roman">VIII.</span><span class="y">2025</span><span class="name">Diptych — presence / absence</span><span class="loc">Marbella</span><span class="ar">→</span></a>
+  </div>
+</section>
+
+</div><!-- /archive -->
+
+<div class="panel" data-panel="studio">
+<!-- BIO -->
+<section class="bio" id="bio">
+  <div class="wrap">
+    <div class="grid">
+      <div class="rv">
+        <span class="num">— III — <span class="es">Estudio</span><span class="en">Studio</span></span>
+        <h2><span class="es">El estudio es <i>la cámara.</i></span><span class="en">The studio is <i>the camera.</i></span></h2>
+      </div>
+      <div class="rv d1">
+        <p><span class="es">Trabajo en blanco y negro porque el color miente más rápido. Trabajo de frente porque los perfiles son una forma cobarde de mirar a alguien. Trabajo en silencio porque casi todo lo importante ocurre cuando dejamos de hablar.</span><span class="en">I work in black and white because color lies faster. I work head-on because profiles are a coward's way of looking at someone. I work in silence because almost everything that matters happens when we stop talking.</span></p>
+        <p><span class="es">El estudio es de papel blanco, ventana norte, una sola cámara, dos lentes, un trípode que no se mueve. Lo demás es el sujeto, y el sujeto es lo único que importa.</span><span class="en">The studio is white seamless, a north window, one camera, two lenses, a tripod that does not move. Everything else is the subject, and the subject is the only thing that matters.</span></p>
+        <p><span class="es">Esta página es una monografía abierta: las plates se actualizan a medida que el archivo crece. Cada imagen lleva su número, su lugar y su año. Nada más.</span><span class="en">This page is an open monograph: the plates update as the archive grows. Every image carries its number, its place, its year. Nothing more.</span></p>
+        <p style="font-style:normal;font-family:var(--sans);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ox);margin-top:30px">— <span class="es">Nota — Cada portada de revista publicada en el feed de @paulainmarbella está fotografiada por este estudio.</span><span class="en">Note — Every magazine cover on @paulainmarbella's feed is photographed by this studio.</span></p>
+        <div class="signed">— Bondliden<b>Estudio · Lisboa / Marbella</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /studio -->
+
+<div class="panel" data-panel="contact">
+<!-- COLOPHON / FOOTER -->
+<footer id="colophon">
+  <div class="wrap">
+    <div class="rv">
+      <p style="text-align:center;font-family:var(--sans);font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--ox);margin-bottom:36px">— IV — <span class="es">Colofón</span><span class="en">Colophon</span></p>
+    </div>
+    <h2 class="super rv d1">
+      <span class="es">Posa<br/><i>para un retrato.</i></span>
+      <span class="en">Sit<br/><i>for a portrait.</i></span>
+    </h2>
+    <div class="cta rv d2"><a href="mailto:hola@bondliden.com">hola@bondliden.com →</a></div>
+
+    <div class="cols rv d3">
+      <div><b><span class="es">Estudio</span><span class="en">Studio</span></b>R. das Janelas Verdes 12<br/>1200-690 Lisboa<br/>Portugal</div>
+      <div><b><span class="es">Representación</span><span class="en">Representation</span></b><span class="es">Iberia — Bondliden Studio<br/>Resto del mundo — bajo petición</span><span class="en">Iberia — Bondliden Studio<br/>Worldwide — by request</span></div>
+      <div><b>Social</b><a href="https://www.instagram.com/bondliden/" target="_blank" rel="noopener">Instagram · @bondliden ↗</a><br/><a href="#">Are.na ↗</a><br/><a href="#"><span class="es">Lista de correo ↗</span><span class="en">Email list ↗</span></a></div>
+      <div><b><span class="es">Portadas seleccionadas</span><span class="en">Selected covers</span></b><span class="es">Like Travel Magazine — Junio 2025<br/>Vous Magazine — Septiembre 2025<br/>+ catálogo completo de portadas<br/>para @paulainmarbella, 2024–26</span><span class="en">Like Travel Magazine — June 2025<br/>Vous Magazine — September 2025<br/>Plus complete cover catalogue<br/>for @paulainmarbella, 2024–26</span></div>
+    </div>
+
+    <div class="legal">
+      <span>© MMXXVI Bondliden — <span class="es">Todos los derechos reservados</span><span class="en">All rights reserved</span></span>
+      <span><span class="es">Compuesto en Bodoni Moda, Poppins y Lora</span><span class="en">Set in Bodoni Moda, Poppins &amp; Lora</span></span>
+      <span><span class="es">Monografía en curso · 1ª edición</span><span class="en">A working monograph · 1st ed.</span></span>
+    </div>
+  </div>
+</footer>
+</div><!-- /contact -->
+
+<script>
+  // Language toggle
+  function setLang(l){
+    document.body.classList.remove('lang-es','lang-en');
+    document.body.classList.add('lang-'+l);
+    document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on', b.dataset.lang===l));
+    try{localStorage.setItem('bond_lang',l)}catch(e){}
+  }
+  document.querySelectorAll('#lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+  const stored = (function(){try{return localStorage.getItem('bond_lang')}catch(e){return null}})();
+  setLang(stored || ((navigator.language||'es').slice(0,2)==='en' ? 'en' : 'es'));
+
+  // Tabs
+  const tabs = document.querySelectorAll('nav.top .tab');
+  const panels = document.querySelectorAll('.panel');
+  const pgno = document.getElementById('pgno');
+  const romans = {hero:'I',manifest:'II',plates:'III',archive:'IV',studio:'V',contact:'VI'};
+  function setTab(name){
+    tabs.forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
+    panels.forEach(p=>p.classList.toggle('active', p.dataset.panel===name));
+    if(pgno) pgno.textContent = romans[name] || 'I';
+    window.scrollTo(0,0);
+    document.querySelectorAll('.panel.active .rv').forEach(el=>el.classList.add('in'));
+    history.replaceState(null,'','#'+name);
+  }
+  tabs.forEach(t=>t.addEventListener('click',e=>{e.preventDefault();setTab(t.dataset.tab)}));
+  document.querySelectorAll('.tab[data-tab]').forEach(t=>{
+    if(!t.closest('nav.top')) t.addEventListener('click',e=>{e.preventDefault();setTab(t.dataset.tab)});
+  });
+  const initial = (location.hash||'#hero').slice(1);
+  setTab(romans[initial] ? initial : 'hero');
+
+  // Cursor
+  const cur = document.getElementById('cur');
+  let tx=0,ty=0,cx=0,cy=0;
+  document.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY});
+  (function loop(){cx+=(tx-cx)*.22;cy+=(ty-cy)*.22;cur.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(loop)})();
+  document.querySelectorAll('a, .arc, .plate .img, .ix').forEach(el=>{
+    el.addEventListener('mouseenter',()=>cur.classList.add('lg'));
+    el.addEventListener('mouseleave',()=>cur.classList.remove('lg'));
+  });
+  document.querySelectorAll('.ox, [href^="mailto"]').forEach(el=>{
+    el.addEventListener('mouseenter',()=>cur.classList.add('ox'));
+    el.addEventListener('mouseleave',()=>cur.classList.remove('ox'));
+  });
+
+  // Reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
+  },{threshold:.12, rootMargin:"0px 0px -80px 0px"});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+</script>
+</body>
+</html>

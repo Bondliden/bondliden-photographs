@@ -1,0 +1,19 @@
+# HTTrack mirror artifacts
+hts-cache/
+hts-log.txt
+cookies.txt
+backblue.gif
+fade.gif
+bondliden.com/
+img1.wsimg.com/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.claude/
+.vscode/
+.idea/
+
+# Local server / temp
+_uploader.py
+*.log
