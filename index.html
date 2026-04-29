@@ -637,10 +637,9 @@
   },{threshold:.12, rootMargin:"0px 0px -80px 0px"});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
-  // CHATBOT — Z.ai (GLM)
+  // CHATBOT — Z.ai vía Cloudflare Worker (la API key vive en el Worker, no en el cliente)
   const CHAT_CONFIG = {
-    apiKey: 'e82980222ffb4f0c880c2c38cad3cdb8.YcgyGiyv0vQZobXk',
-    endpoint: 'https://api.z.ai/api/paas/v4/chat/completions',
+    endpoint: 'https://bondliden-chat.bondliden.workers.dev',  // ← reemplaza tras desplegar el Worker
     model: 'glm-4-flash',
     system: "Eres el asistente del estudio de fotografía Bondliden (Lisboa / Marbella). Estilo Avedon: retratos en blanco y negro, frontales, sin ornamento. Responde con calidez, brevedad (máx. 3 frases) y precisión. Si preguntan por reservar, dirige al calendario Calendly al final de la página de contacto. Si preguntan precios concretos, di que se concretan tras una breve llamada. Para encargos editoriales, pide briefing por hola@bondliden.com. Idioma: responde en el idioma del usuario."
   };
@@ -654,12 +653,11 @@
   function addMsg(text,who){const d=document.createElement('div');d.className='m '+who;d.textContent=text;chatM.appendChild(d);chatM.scrollTop=chatM.scrollHeight;return d}
   function showTyping(){const d=document.createElement('div');d.className='typing';d.innerHTML='<span></span><span></span><span></span>';chatM.appendChild(d);chatM.scrollTop=chatM.scrollHeight;return d}
   async function callZai(messages){
-    if(!CHAT_CONFIG.apiKey) return 'Estoy en modo demo. Escríbenos a hola@bondliden.com o reserva directamente en el calendario abajo.';
     try{
-      const r=await fetch(CHAT_CONFIG.endpoint,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+CHAT_CONFIG.apiKey},body:JSON.stringify({model:CHAT_CONFIG.model,messages,temperature:.6,max_tokens:300})});
+      const r=await fetch(CHAT_CONFIG.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:CHAT_CONFIG.model,messages,temperature:.6,max_tokens:300})});
       const j=await r.json();
-      return j?.choices?.[0]?.message?.content || 'No he podido responder ahora.';
-    }catch(e){return 'Conexión interrumpida. Inténtalo de nuevo.'}
+      return j?.choices?.[0]?.message?.content || 'No he podido responder ahora. Escríbenos a hola@bondliden.com.';
+    }catch(e){return 'Conexión interrumpida. Inténtalo de nuevo en un momento.'}
   }
   chatF.addEventListener('submit',async(e)=>{
     e.preventDefault();
