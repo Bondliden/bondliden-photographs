@@ -541,16 +541,25 @@
     <div class="rv">
       <p style="text-align:center;font-family:var(--sans);font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--ox);margin-bottom:36px">— IV — <span class="es">Colofón</span><span class="en">Colophon</span></p>
     </div>
+    <p class="rv" style="text-align:center;font-family:var(--sans);font-size:12px;letter-spacing:.3em;text-transform:uppercase;margin:-12px 0 44px"><a href="mailto:bondliden@bondliden.com" style="border-bottom:1px solid var(--ox);padding-bottom:3px">bondliden@bondliden.com</a></p>
     <h2 class="super rv d1">
       <span class="es">Posa<br/><i>para un retrato.</i></span>
       <span class="en">Sit<br/><i>for a portrait.</i></span>
     </h2>
     <div class="cta rv d2"><a href="mailto:bondliden@bondliden.com">bondliden@bondliden.com →</a></div>
 
+    <div class="rv d3" style="margin-top:96px;text-align:center">
+      <p style="font-family:var(--sans);font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--ox);margin-bottom:18px"><span class="es">— Tarifa —</span><span class="en">— Rate —</span></p>
+      <p style="font-family:var(--serif);font-size:clamp(56px,7vw,96px);line-height:1;color:var(--ink);margin:0">500&nbsp;€</p>
+      <p style="font-family:var(--italic);font-style:italic;font-size:20px;color:var(--ink);margin:16px auto 10px;max-width:40ch"><span class="es">Sesión de retrato con tres cambios de vestuario.</span><span class="en">Portrait session with three outfit changes.</span></p>
+      <p style="font-family:var(--sans);font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(20,20,19,.6);margin:0"><span class="es">Moda, campañas, portadas y bodas: presupuesto a medida</span><span class="en">Fashion, campaigns, covers &amp; weddings: quoted on request</span></p>
+    </div>
+
     <div class="rv d3" style="margin-top:80px;text-align:center">
       <p style="font-family:var(--sans);font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--ox);margin-bottom:14px"><span class="es">— Reserva tu sesión —</span><span class="en">— Book your session —</span></p>
       <p style="font-family:var(--italic);font-style:italic;font-size:18px;color:var(--ink);max-width:48ch;margin:0 auto 36px"><span class="es">Elige día y hora directamente en nuestro calendario.</span><span class="en">Pick a date and time directly from our calendar.</span></p>
       <div class="calendly-inline-widget" data-url="https://calendly.com/bondliden-3fo/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=d97757&background_color=faf9f5&text_color=141413" style="min-width:320px;height:680px;border:1px solid var(--rule)"></div>
+      <p style="font-family:var(--sans);font-size:10px;letter-spacing:.32em;text-transform:uppercase;margin-top:18px"><a href="https://calendly.com/bondliden-3fo/30min" target="_blank" rel="noopener" style="border-bottom:1px solid var(--ink);padding-bottom:3px"><span class="es">¿No ves el calendario? Ábrelo aquí ↗</span><span class="en">Calendar not showing? Open it here ↗</span></a></p>
     </div>
 
     <div class="cols rv d3">
@@ -602,12 +611,14 @@
   const panels = document.querySelectorAll('.panel');
   const pgno = document.getElementById('pgno');
   const romans = {hero:'I',manifest:'II',plates:'III',archive:'IV',studio:'V',contact:'VI'};
+  function calendlyOk(){ const w=document.querySelector('.calendly-inline-widget'); if(w && window.Calendly && !w.querySelector('iframe')) Calendly.initInlineWidget({url:w.dataset.url, parentElement:w}); }
   function setTab(name){
     tabs.forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
     panels.forEach(p=>p.classList.toggle('active', p.dataset.panel===name));
     if(pgno) pgno.textContent = romans[name] || 'I';
     window.scrollTo(0,0);
     document.querySelectorAll('.panel.active .rv').forEach(el=>el.classList.add('in'));
+    if(name==='contact') setTimeout(calendlyOk, 400);
     history.replaceState(null,'','#'+name);
   }
   tabs.forEach(t=>t.addEventListener('click',e=>{e.preventDefault();setTab(t.dataset.tab)}));
@@ -656,7 +667,7 @@ TONO
 
 QUÉ DERIVAR Y CÓMO
 - Si preguntan por DISPONIBILIDAD o reservar: invítales a ver el calendario al final de la página (pestaña Contacto, scroll abajo). Frase tipo: "Mira el calendario al final de la página y elige el hueco que mejor te encaje."
-- Si preguntan por PRECIOS o COTIZACIÓN: pídeles que escriban a bondliden@bondliden.com con un par de líneas sobre el encargo (qué, cuándo, dónde) y mandamos presupuesto a medida. No improvises cifras.
+- Si preguntan por PRECIOS: la sesión de retrato cuesta 500 € e incluye tres cambios de vestuario; se reserva en el calendario de la pestaña Contacto. Para moda, campañas, portadas o bodas, pídeles que escriban a bondliden@bondliden.com con un par de líneas sobre el encargo (qué, cuándo, dónde) y mandamos presupuesto a medida. No improvises otras cifras.
 - Si preguntan algo CONCRETO sobre el trabajo (formato, duración, lugar, equipo, retoque): responde con confianza desde lo que sabes del estudio.
 - Si quieren ver más obra: refiérelos a la pestaña Plates o Archive de la web, o a Instagram @bondliden.
 
