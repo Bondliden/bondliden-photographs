@@ -9,7 +9,40 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,500&family=Poppins:wght@200;300;400;500;600;700&family=Lora:ital@1&display=swap" rel="stylesheet" />
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script src="https://assets.calendly.com/assets/external/widget.js" async>
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxMeta = document.getElementById('lightboxMeta');
+  const lightboxClose = document.getElementById('lightboxClose');
+  
+  document.querySelectorAll('.arc').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const img = el.querySelector('img');
+      const no = el.getAttribute('data-no');
+      if (img && no) {
+        lightboxImg.src = img.src;
+        lightboxMeta.textContent = 'Plate ' + no;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+  
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+  });
+</script>
 <style>
   :root{
     --white:#faf9f5;       /* Anthropic cream */
@@ -258,6 +291,15 @@
   /* small ornament */
   .ornament{display:inline-block;width:48px;height:1px;background:var(--ink);vertical-align:middle;margin:0 10px;transform:translateY(-3px)}
   .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ox);vertical-align:middle;margin:0 8px}
+
+  /* Lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+  .lightbox.active{display:flex}
+  .lightbox img{max-width:90vw;max-height:85vh;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .lightbox .close{position:absolute;top:20px;right:20px;width:44px;height:44px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .3s}
+  .lightbox .close:hover{background:rgba(255,255,255,.2)}
+  .lightbox .close::before{content:'×';font-size:28px;line-height:1;color:#fff}
+  .lightbox .meta{position:absolute;bottom:20px;left:20px;font-family:var(--serif);font-style:italic;color:#fff;font-size:14px}
 </style>
 </head>
 <body>
@@ -720,6 +762,46 @@ QUÉ NO HACER
     chatI.disabled=false;chatI.focus();
   });
 
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxMeta = document.getElementById('lightboxMeta');
+  const lightboxClose = document.getElementById('lightboxClose');
+  
+  document.querySelectorAll('.arc').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const img = el.querySelector('img');
+      const no = el.getAttribute('data-no');
+      if (img && no) {
+        lightboxImg.src = img.src;
+        lightboxMeta.textContent = 'Plate ' + no;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+  
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+  });
 </script>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="close" id="lightboxClose"></button>
+    <img id="lightboxImg" src="" alt="">
+    <div class="meta" id="lightboxMeta"></div>
+  </div>
 </body>
 </html>
