@@ -10,53 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,500&family=Poppins:wght@200;300;400;500;600;700&family=Lora:ital@1&display=swap" rel="stylesheet" />
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
 <script src="https://assets.calendly.com/assets/external/widget.js" async>
-  // Lightbox
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxMeta = document.getElementById('lightboxMeta');
-  const lightboxClose = document.getElementById('lightboxClose');
-  
-  function openLightbox(src, no) {
-    lightboxImg.src = src;
-    lightboxImg.style.filter = 'none';
-    lightboxMeta.textContent = 'Plate ' + no;
-    lightbox.style.display = 'flex';
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    console.log('Lightbox abierto:', src);
-  }
-  
-  function closeLightbox() {
-    lightbox.style.display = 'none';
-    lightbox.classList.remove('active');
-    document.body.style.overflow = '';
-    console.log('Lightbox cerrado');
-  }
-  
-  document.querySelectorAll('.arc').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      const img = el.querySelector('img');
-      const no = el.getAttribute('data-no');
-      if (img && no) {
-        openLightbox(img.src, no);
-      }
-    });
-  });
-  
-  lightboxClose.addEventListener('click', (e) => {
-    e.stopPropagation();
-    closeLightbox();
-  });
-  
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
-  
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
-  });
-</script>
+  </script>
 <style>
   :root{
     --white:#faf9f5;       /* Anthropic cream */
