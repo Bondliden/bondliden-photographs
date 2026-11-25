@@ -189,16 +189,26 @@
   nav.top li{position:relative}
   nav.top .tab{display:inline-block;padding:10px 22px;border:1px solid transparent;border-bottom:0;
     transition:background .3s, color .3s, border-color .3s;cursor:pointer;font-family:var(--sans);
-    font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink);font-weight:300}
+    font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink);font-weight:500}
   nav.top .tab .ro{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--ox);margin-right:8px;letter-spacing:0;text-transform:none}
   nav.top .tab:hover{color:var(--ox)}
   nav.top .tab.active{background:var(--white);border-color:rgba(20,20,19,.16);color:var(--ink);transform:translateY(1px);border-radius:6px 6px 0 0}
   nav.top .tab{border-radius:6px 6px 0 0}
   nav.top .tab.active .ro{color:var(--ox)}
   @media(max-width:1024px){nav.top .tab{padding:8px 12px;letter-spacing:.2em}}
-  @media(max-width:820px){nav.top ul{display:flex;overflow-x:auto;gap:0;max-width:calc(100vw - 200px);scrollbar-width:none}
+  /* En el telefono las pestanas bajan a una segunda fila a todo lo ancho:
+     antes quedaban encajadas en 175px junto al logo y no se veian. */
+  @media(max-width:820px){
+    nav.top .row{flex-wrap:wrap;row-gap:4px;padding:12px 16px 0}
+    nav.top ul{display:flex;order:3;flex:0 0 100%;max-width:100%;gap:0;
+      overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+      margin:0 -16px;padding:0 16px;
+      -webkit-mask-image:linear-gradient(to right,#000 88%,transparent);
+      mask-image:linear-gradient(to right,#000 88%,transparent)}
     nav.top ul::-webkit-scrollbar{display:none}
-    nav.top .tab{padding:8px 14px;white-space:nowrap;letter-spacing:.16em;font-size:10px}}
+    nav.top .tab{padding:9px 13px;white-space:nowrap;letter-spacing:.08em;font-size:11px;font-weight:700;color:var(--ink)}
+    nav.top .tab .ro{display:none}
+    nav.top .tab.active{border-color:rgba(20,20,19,.26)}}
 
   /* tab panels */
   .panel{display:none;animation:fadein .65s cubic-bezier(.2,.8,.2,1)}
@@ -648,6 +658,9 @@
   function calendlyOk(){ const w=document.querySelector('.calendly-inline-widget'); if(w && window.Calendly && !w.querySelector('iframe')) Calendly.initInlineWidget({url:w.dataset.url, parentElement:w}); }
   function setTab(name){
     tabs.forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
+    // en el telefono la tira de pestanas se desplaza: traemos la activa a la vista
+    const act = document.querySelector('nav.top .tab.active');
+    if(act && act.scrollIntoView) act.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
     panels.forEach(p=>p.classList.toggle('active', p.dataset.panel===name));
     if(pgno) pgno.textContent = romans[name] || 'I';
     window.scrollTo(0,0);
