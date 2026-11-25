@@ -261,9 +261,10 @@
   .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ox);vertical-align:middle;margin:0 8px}
 
   /* Lightbox */
-  .lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:99999;display:none;align-items:center;justify-content:center;padding:20px}
-  .lightbox.active{display:flex !important}
-  .lightbox img{max-width:95vw;max-height:90vh;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5);filter:none !important}
+  .lightbox{position:fixed;inset:0;width:100vw;height:100vh;background:#000;z-index:99999;display:none;align-items:center;justify-content:center;padding:0;opacity:0;transition:opacity .35s ease;cursor:zoom-out}
+  .lightbox.active{display:flex;opacity:1}
+  .lightbox img{width:100vw;height:100vh;max-width:100vw;max-height:100vh;object-fit:contain;filter:none !important;transform:scale(.985);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+  .lightbox.active img{transform:scale(1)}
   .lightbox .close{position:absolute;top:20px;right:20px;width:44px;height:44px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .3s;z-index:100000}
   .lightbox .close:hover{background:rgba(255,255,255,.2)}
   .lightbox .close::before{content:'×';font-size:28px;line-height:1;color:#fff}
@@ -620,6 +621,13 @@
   </form>
 </div>
 
+<!-- LIGHTBOX (pantalla completa) — debe ir antes del <script> que lo usa -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Fotografía a pantalla completa">
+  <button class="close" id="lightboxClose" type="button" aria-label="Cerrar"></button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="meta" id="lightboxMeta"></div>
+</div>
+
 <script>
   // Language toggle
   function setLang(l){
@@ -731,59 +739,41 @@ QUÉ NO HACER
   });
 
 
-  // Lightbox
+  // Lightbox — al pinchar una foto del archivo, se abre a pantalla completa y a color
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxMeta = document.getElementById('lightboxMeta');
   const lightboxClose = document.getElementById('lightboxClose');
-  
-  function openLightbox(src, no) {
-    lightboxImg.src = src;
-    lightboxImg.style.filter = 'none';
-    lightboxMeta.textContent = 'Plate ' + no;
-    lightbox.style.display = 'flex';
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    console.log('Lightbox abierto:', src);
-  }
-  
-  function closeLightbox() {
-    lightbox.style.display = 'none';
-    lightbox.classList.remove('active');
-    document.body.style.overflow = '';
-    console.log('Lightbox cerrado');
-  }
-  
-  document.querySelectorAll('.arc').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      const img = el.querySelector('img');
-      const no = el.getAttribute('data-no');
-      if (img && no) {
-        openLightbox(img.src, no);
-      }
-    });
-  });
-  
-  lightboxClose.addEventListener('click', (e) => {
-    e.stopPropagation();
-    closeLightbox();
-  });
-  
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
-  
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
-  });
-</script>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
-    <button class="close" id="lightboxClose"></button>
-    <img id="lightboxImg" src="" alt="">
-    <div class="meta" id="lightboxMeta"></div>
-  </div>
+  if (lightbox && lightboxImg) {
+    const openLightbox = (src, no) => {
+      lightboxImg.src = src;
+      if (lightboxMeta) lightboxMeta.textContent = no ? 'Plate ' + no : '';
+      lightbox.style.display = 'flex';
+      requestAnimationFrame(() => lightbox.classList.add('active'));
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeLightbox = () => {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+      setTimeout(() => { if (!lightbox.classList.contains('active')) lightbox.style.display = 'none'; }, 350);
+    };
+
+    document.querySelectorAll('.arc').forEach(el => {
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        const img = el.querySelector('img');
+        if (img) openLightbox(img.currentSrc || img.src, el.getAttribute('data-no'));
+      });
+    });
+
+    if (lightboxClose) lightboxClose.addEventListener('click', e => { e.stopPropagation(); closeLightbox(); });
+    lightbox.addEventListener('click', e => { if (e.target !== lightboxClose) closeLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+    });
+  }
+</script>
 </body>
 </html>
